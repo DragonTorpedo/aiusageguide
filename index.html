@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Master Gemini Field Guide</title>
+    <style>
+        :root {
+            --bg-color: #0b0c10;
+            --card-bg: #1f2833;
+            --accent-color: #c5a059; /* Luxury Gold */
+            --text-main: #ffffff;
+            --text-muted: #c5a059;
+            --flash-color: #4dadff;
+            --thinking-color: #a370f7;
+            --pro-color: #ff6b6b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+            padding-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            margin: 40px 0 20px 0;
+            letter-spacing: 1px;
+        }
+
+        /* Matrix Table styling */
+        .matrix-container {
+            overflow-x: auto;
+            margin-bottom: 40px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        th, td {
+            padding: 18px;
+            text-align: left;
+        }
+
+        th {
+            background-color: rgba(0, 0, 0, 0.3);
+            color: var(--accent-color);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+
+        tr {
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+
+        .tag-flash { background: rgba(77, 173, 255, 0.15); color: var(--flash-color); }
+        .tag-thinking { background: rgba(163, 112, 247, 0.15); color: var(--thinking-color); }
+        .tag-pro { background: rgba(255, 107, 107, 0.15); color: var(--pro-color); }
+
+        /* Workflow Sections */
+        .workflow-step {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .workflow-step strong {
+            color: var(--accent-color);
+            font-size: 1.1rem;
+        }
+
+        /* Interactive Survey Styling */
+        .survey-box {
+            background: linear-gradient(145deg, #151b23, #1f2833);
+            border: 1px solid rgba(197, 160, 89, 0.3);
+            padding: 35px;
+            border-radius: 12px;
+            margin-top: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .survey-question {
+            display: none;
+        }
+
+        .survey-question.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .survey-question p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .btn-option {
+            display: block;
+            width: 100%;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-main);
+            padding: 15px 20px;
+            margin-bottom: 12px;
+            border-radius: 6px;
+            text-align: left;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-option:hover {
+            background: rgba(197, 160, 89, 0.1);
+            border-color: var(--accent-color);
+            transform: translateX(5px);
+        }
+
+        .result-box {
+            display: none;
+            text-align: center;
+            padding: 20px 0;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .result-title {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .btn-restart {
+            background: transparent;
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            padding: 10px 25px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            transition: all 0.2s;
+        }
+
+        .btn-restart:hover {
+            background: var(--accent-color);
+            color: var(--bg-color);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>The Master Gemini Field Guide</h1>
+        <p style="color: #888;">AI Plus Edition</p>
+    </header>
+
+    <h2>1. The Quick Everyday Matrix</h2>
+    <div class="matrix-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Mode / Toggle</th>
+                    <th>What It Feels Like</th>
+                    <th>When to Use It</th>
+                    <th>Limit Strategy</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="tag tag-flash">⚡ Flash Mode</span></td>
+                    <td>The Fast Responder</td>
+                    <td>Texting, everyday questions, quick essay drafts, brainstorming ideas, and basic formatting.</td>
+                    <td><strong>Unlimited.</strong> Keep this on 90% of the time.</td>
+                </tr>
+                <tr>
+                    <td><span class="tag tag-thinking">🧠 Thinking Toggle</span></td>
+                    <td>The Careful Expert</td>
+                    <td>Solving tough math, fixing broken code, or double-checking an important fact.</td>
+                    <td><strong>Capped usage.</strong> Only flip it on when you need 100% accuracy.</td>
+                </tr>
+                <tr>
+                    <td><span class="tag tag-pro">🏢 Pro Mode</span></td>
+                    <td>The Creative Writer</td>
+                    <td>Writing a speech, an emotional story, or looking for deep, human nuance.</td>
+                    <td><strong>Capped usage.</strong> Save it for special creative projects.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h2>2. The Everyday 2-Step Routine</h2>
+    <div class="workflow-step">
+        <p><strong>Step 1: Start in FLASH (Your Default)</strong> Keep Gemini on Flash for regular chatting, typing questions, and tossing ideas back and forth. It responds instantly and uses zero premium limits.</p>
+    </div>
+    <div class="workflow-step">
+        <p><strong>Step 2: The Logic Switch (Flip on THINKING)</strong> If Flash gives you an answer to a hard problem but you want to make absolutely sure it didn't make a careless mistake, <strong>don't start over</strong>. Just turn on the <strong>Thinking Toggle</strong> right there in the chat and say: <em>"Double-check that logic and make sure it's 100% right."</em></p>
+    </div>
+
+    <h2>3. The Quick Everyday Survey</h2>
+    <div class="survey-box">
+        <div id="q1" class="survey-question active">
+            <p>Question 1: Does this need to be 100% factually perfect or error-free?</p>
+            <p style="font-size:0.9rem; color:#888; margin-top:-15px; margin-bottom:20px;">(e.g., A math problem, a code bug, a strict rule check)</p>
+            <button class="btn-option" onclick="selectOption('q1', 'YES')">👉 YES</button>
+            <button class="btn-option" onclick="selectOption('q1', 'NO')">👉 NO</button>
+        </div>
+
+        <div id="q2" class="survey-question">
+            <p>Question 2: Does this need to sound deeply human, artistic, or creative?</p>
+            <p style="font-size:0.9rem; color:#888; margin-top:-15px; margin-bottom:20px;">(e.g., A heartfelt letter, a poem, a dramatic speech)</p>
+            <button class="btn-option" onclick="selectOption('q2', 'YES')">👉 YES</button>
+            <button class="btn-option" onclick="selectOption('q2', 'NO')">👉 NO</button>
+        </div>
+
+        <div id="result" class="result-box">
+            <p style="text-transform: uppercase; font-size: 0.9rem; letter-spacing: 2px; color: var(--accent-color);">Your Recommended Engine</p>
+            <div id="result-text" class="result-title"></div>
+            <button class="btn-restart" onclick="restartSurvey()">Take Survey Again</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function selectOption(currentQuestion, value) {
+        document.getElementById(currentQuestion).classList.remove('active');
+        
+        if (currentQuestion === 'q1') {
+            if (value === 'YES') {
+                showResult('🧠 Turn on the Thinking Toggle', 'var(--thinking-color)');
+            } else {
+                document.getElementById('q2').classList.add('active');
+            }
+        } else if (currentQuestion === 'q2') {
+            if (value === 'YES') {
+                showResult('🏢 Switch to Pro Mode', 'var(--pro-color)');
+            } else {
+                showResult('⚡ Keep it on your everyday default, Flash Mode.', 'var(--flash-color)');
+            }
+        }
+    }
+
+    function showResult(text, color) {
+        const resultBox = document.getElementById('result');
+        const resultText = document.getElementById('result-text');
+        resultText.innerText = text;
+        resultText.style.color = color;
+        resultBox.style.display = 'block';
+    }
+
+    function restartSurvey() {
+        document.getElementById('result').style.display = 'none';
+        document.getElementById('q2').classList.remove('active');
+        document.getElementById('q1').classList.add('active');
+    }
+</script>
+
+</body>
+</html>
