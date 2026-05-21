@@ -10,7 +10,7 @@
             --card-bg: #1f2833;
             --accent-color: #c5a059; /* Luxury Gold */
             --text-main: #ffffff;
-            --text-muted: #c5a059;
+            --text-muted: #8e94a0;   /* Optimized for high-contrast reading */
             --flash-color: #4dadff;
             --thinking-color: #a370f7;
             --pro-color: #ff6b6b;
@@ -58,7 +58,6 @@
             letter-spacing: 1px;
         }
 
-        /* Matrix Table styling */
         .matrix-container {
             overflow-x: auto;
             margin-bottom: 40px;
@@ -103,7 +102,6 @@
         .tag-thinking { background: rgba(163, 112, 247, 0.15); color: var(--thinking-color); }
         .tag-pro { background: rgba(255, 107, 107, 0.15); color: var(--pro-color); }
 
-        /* Workflow Sections */
         .workflow-step {
             background: var(--card-bg);
             padding: 25px;
@@ -117,7 +115,6 @@
             font-size: 1.1rem;
         }
 
-        /* Interactive Survey Styling */
         .survey-box {
             background: linear-gradient(145deg, #151b23, #1f2833);
             border: 1px solid rgba(197, 160, 89, 0.3);
@@ -125,6 +122,7 @@
             border-radius: 12px;
             margin-top: 40px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            min-height: 250px; /* Stabilizes layouts during view switches */
         }
 
         .survey-question {
@@ -133,13 +131,19 @@
 
         .survey-question.active {
             display: block;
-            animation: fadeIn 0.4s ease;
+            animation: fadeIn 0.4s ease-out;
         }
 
         .survey-question p {
             font-size: 1.2rem;
-            margin-bottom: 20px;
+            margin-bottom: 5px;
             font-weight: 500;
+        }
+
+        .survey-context {
+            font-size: 0.9rem; 
+            color: var(--text-muted); 
+            margin-bottom: 20px;
         }
 
         .btn-option {
@@ -160,14 +164,14 @@
         .btn-option:hover {
             background: rgba(197, 160, 89, 0.1);
             border-color: var(--accent-color);
-            transform: translateX(5px);
+            padding-left: 25px; /* Visual accent movement without scale glitches */
         }
 
         .result-box {
             display: none;
             text-align: center;
             padding: 20px 0;
-            animation: fadeIn 0.5s ease;
+            animation: fadeIn 0.5s ease-out;
         }
 
         .result-title {
@@ -196,7 +200,7 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(5px); }
             to { opacity: 1; transform: translateY(0); }
         }
     </style>
@@ -206,7 +210,7 @@
 <div class="container">
     <header>
         <h1>The Master Gemini Field Guide</h1>
-        <p style="color: #888;">AI Plus Edition</p>
+        <p style="color: var(--text-muted);">AI Plus Edition</p>
     </header>
 
     <h2>1. The Quick Everyday Matrix</h2>
@@ -255,16 +259,16 @@
     <div class="survey-box">
         <div id="q1" class="survey-question active">
             <p>Question 1: Does this need to be 100% factually perfect or error-free?</p>
-            <p style="font-size:0.9rem; color:#888; margin-top:-15px; margin-bottom:20px;">(e.g., A math problem, a code bug, a strict rule check)</p>
-            <button class="btn-option" onclick="selectOption('q1', 'YES')">👉 YES</button>
-            <button class="btn-option" onclick="selectOption('q1', 'NO')">👉 NO</button>
+            <p class="survey-context">(e.g., A math problem, a code bug, a strict rule check)</p>
+            <button class="btn-option" onclick="processAnswer(1, true)">👉 YES</button>
+            <button class="btn-option" onclick="processAnswer(1, false)">👉 NO</button>
         </div>
 
         <div id="q2" class="survey-question">
             <p>Question 2: Does this need to sound deeply human, artistic, or creative?</p>
-            <p style="font-size:0.9rem; color:#888; margin-top:-15px; margin-bottom:20px;">(e.g., A heartfelt letter, a poem, a dramatic speech)</p>
-            <button class="btn-option" onclick="selectOption('q2', 'YES')">👉 YES</button>
-            <button class="btn-option" onclick="selectOption('q2', 'NO')">👉 NO</button>
+            <p class="survey-context">(e.g., A heartfelt letter, a poem, a dramatic speech)</p>
+            <button class="btn-option" onclick="processAnswer(2, true)">👉 YES</button>
+            <button class="btn-option" onclick="processAnswer(2, false)">👉 NO</button>
         </div>
 
         <div id="result" class="result-box">
@@ -276,30 +280,32 @@
 </div>
 
 <script>
-    function selectOption(currentQuestion, value) {
-        document.getElementById(currentQuestion).classList.remove('active');
+    function processAnswer(questionNum, isYes) {
+        // Hide the current active question element
+        document.getElementById(`q${questionNum}`).classList.remove('active');
         
-        if (currentQuestion === 'q1') {
-            if (value === 'YES') {
-                showResult('🧠 Turn on the Thinking Toggle', 'var(--thinking-color)');
+        if (questionNum === 1) {
+            if (isYes) {
+                displayEngineResult('🧠 Turn on the Thinking Toggle', 'var(--thinking-color)');
             } else {
                 document.getElementById('q2').classList.add('active');
             }
-        } else if (currentQuestion === 'q2') {
-            if (value === 'YES') {
-                showResult('🏢 Switch to Pro Mode', 'var(--pro-color)');
+        } else if (questionNum === 2) {
+            if (isYes) {
+                displayEngineResult('🏢 Switch to Pro Mode', 'var(--pro-color)');
             } else {
-                showResult('⚡ Keep it on your everyday default, Flash Mode.', 'var(--flash-color)');
+                displayEngineResult('⚡ Keep it on your everyday default, Flash Mode.', 'var(--flash-color)');
             }
         }
     }
 
-    function showResult(text, color) {
-        const resultBox = document.getElementById('result');
-        const resultText = document.getElementById('result-text');
-        resultText.innerText = text;
-        resultText.style.color = color;
-        resultBox.style.display = 'block';
+    function displayEngineResult(message, dynamicColor) {
+        const resultView = document.getElementById('result');
+        const textContainer = document.getElementById('result-text');
+        
+        textContainer.innerText = message;
+        textContainer.style.color = dynamicColor;
+        resultView.style.display = 'block';
     }
 
     function restartSurvey() {
